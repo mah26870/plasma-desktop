@@ -121,7 +121,7 @@ Component GlobalAccelModel::loadComponent(const QList<KGlobalShortcutInfo> &info
     static const QHash<QString, QString> hardCodedIcons = {{"ActivityManager", "preferences-desktop-activities"},
                                                            {"KDE Keyboard Layout Switcher", "input-keyboard"},
                                                            {"krunner.desktop", "krunner"},
-                                                           {"org_kde_powerdevil", "preferences-system-power-management"}};
+                                                           {"org_kde_powerdevil", "preferences-system-power-management"},};
 
     if (service && !service->icon().isEmpty()) {
         icon = service->icon();
