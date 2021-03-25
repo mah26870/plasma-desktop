@@ -52,6 +52,8 @@ FocusScope {
 
     property alias section: listView.section
 
+    property alias delayedActivationTimer: delayedActivation.interval
+
     // Accessibility NOTE: We don't name panes because doing so would be annoying and redundant
 
     property bool upsideDown: false
