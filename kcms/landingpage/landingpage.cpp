@@ -41,7 +41,6 @@
 
 #include "landingpagedata.h"
 #include "landingpage_kdeglobalssettings.h"
-#include "landingpage_baloosettings.h"
 #include "landingpage_feedbacksettings.h"
 
 #include <KActivities/Stats/ResultModel>
@@ -179,7 +178,7 @@ KCMLandingPage::KCMLandingPage(QObject *parent, const QVariantList &args)
     , m_data(new LandingPageData(this))
 {
     qmlRegisterType<LandingPageGlobalsSettings>();
-    qmlRegisterType<BalooSettings>();
+    qmlRegisterType<FeedbackSettings>();
     qmlRegisterType<MostUsedModel>();
     qmlRegisterType<LookAndFeelGroup>();
 
@@ -217,11 +216,6 @@ LandingPageGlobalsSettings *KCMLandingPage::globalsSettings() const
     return m_data->landingPageGlobalsSettings();
 }
 
-BalooSettings *KCMLandingPage::balooSettings() const
-{
-    return m_data->balooSettings();
-}
-
 FeedbackSettings *KCMLandingPage::feedbackSettings() const
 {
     return m_data->feedbackSettings();
@@ -237,19 +231,6 @@ void KCMLandingPage::save()
     args.append(KGlobalSettings::SETTINGS_MOUSE);
     message.setArguments(args);
     QDBusConnection::sessionBus().send(message);
-
-    // Update Baloo config or start/stop Baloo
-    if (balooSettings()->indexingEnabled()) {
-        // Trying to start baloo when it is already running is fine
-        const QString exe = QStandardPaths::findExecutable(QStringLiteral("baloo_file"));
-        QProcess::startDetached(exe, QStringList());
-    } else {
-        QDBusMessage message =
-            QDBusMessage::createMethodCall(QStringLiteral("org.kde.baloo"), QStringLiteral("/"), QStringLiteral("org.kde.baloo.main"), QStringLiteral("quit"));
-
-        QDBusConnection::sessionBus().asyncCall(message);
-    }
-
 
     if (m_lnfDirty) {
         QProcess::startDetached(QStringLiteral("plasma-apply-lookandfeel"), QStringList({QStringLiteral("-a"), m_data->landingPageGlobalsSettings()->lookAndFeelPackage()}));

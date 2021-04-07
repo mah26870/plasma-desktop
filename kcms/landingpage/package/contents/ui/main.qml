@@ -189,18 +189,6 @@ KCM.SimpleKCM {
                 font: theme.smallestFont
             }
 
-            Item {
-                Kirigami.FormData.isSection: false
-            }
-
-            QQC2.CheckBox {
-                Kirigami.FormData.label: i18n("File Indexing:")
-                text: i18n("Enabled")
-                checked: kcm.balooSettings.indexingEnabled
-                onToggled: {
-                    kcm.balooSettings.indexingEnabled = checked
-                }
-            }
             QQC2.Slider {
                 id: statisticsModeSlider
                 Kirigami.FormData.label: i18n("Send User Feedback:")
@@ -239,6 +227,9 @@ KCM.SimpleKCM {
                     id: feedbackController
                     applicationName: i18n("Plasma")
                 }
+            }
+            Item {
+                Kirigami.FormData.isSection: false
             }
 
             QQC2.Label {
